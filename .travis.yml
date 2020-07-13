@@ -17,12 +17,12 @@ before_install:
   - gcloud container clusters get-credentials multi-cluster
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker build -t mohsin17/react-test -f ./client/Dockerfile.dev ./client
+  - rm -rf service-account.json
 
 script:
   - docker run -e CI=true mohsin17/react-test npm run test
 
 deploy:
-  skip_cleanup: true
   provider: script
   script: bash ./deploy.sh
   on:
